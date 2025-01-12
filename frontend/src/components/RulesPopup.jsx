@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import "../styles/RulesPopup.css";
-
+import { useNavigate} from "react-router-dom";
 const RulesPopup = ({onClose}) => {
   const [isAgreed, setIsAgreed] = useState(false);
 
   const handleCheckboxChange = () => {
     setIsAgreed(!isAgreed);
   };
-
+  const navigate=useNavigate();
   const handleStartTest = () => {
-    alert("Test started! Good luck!");
-    onClose();
-    document.getElementById("rulesPopup").style.display = "none";
+    setTimeout(()=>{
+      onClose();
+      navigate("/quiz");
+      document.getElementById("rulesPopup").style.display = "none";
+    },1000);
   };
 
   return (
