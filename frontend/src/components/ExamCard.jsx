@@ -1,12 +1,23 @@
 import React from "react";
 import "../styles/ExamCard.css";
+import RulesPopup from "./RulesPopup";
+import { useState } from "react";
 
 const ExamCard = () => {
+  const [showPopup, setShowPopup] = useState(false);
+  const handleButtonClick = () => {
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+
   return (
     <div className="ecard">
       <div className="card-left">
         <div className="card-icon">
-        <i className="fa-solid fa-medal" id="green-icon"></i>
+          <i className="fa-solid fa-medal" id="green-icon"></i>
         </div>
         <div className="text-section">
           <div className="title">Mid-1 Internal Test</div>
@@ -15,8 +26,9 @@ const ExamCard = () => {
       </div>
       <div className="card-right">
         <div className="time">Jan 30, 2025</div>
-        <button className="join-button">Take Test</button>
+        <button className="join-button" onClick={handleButtonClick}>Take Test</button>
       </div>
+      {showPopup && <RulesPopup onClose={handleClosePopup} />}
     </div>
   );
 };
