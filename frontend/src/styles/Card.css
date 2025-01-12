@@ -1,0 +1,161 @@
+main{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+.card{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    width:30vw;
+    height: 60vh;
+    box-shadow: 5px 5px 10px lightgray;
+    border-radius: 10px;
+    /* padding: 10px 20px; */
+}
+main img{
+    height: 300px;
+}
+.card form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 35vw;
+}
+form h1{
+    /* color:#1AB69D; */
+    color:#4CAF50;
+    margin-bottom: 20px;
+}
+input{
+    background-color: transparent;
+    width: 14vw;
+    font-size: 15px;
+}
+input:focus{
+    outline:none;
+}
+i{
+    padding-left: 3px;
+    padding-right: 3px;
+    color:#337838
+}
+#eye{
+    cursor: pointer;
+}
+p{
+    font-size: 15px;
+    margin-top: 15px;
+}
+a{
+    text-decoration: none;
+    /* color:#1AB69D; */
+    color:#4CAF50;
+}
+a:hover{
+    color:#337838;
+}
+form .namediv,.passdiv{
+    width: 18vw;
+    padding: 8px 5px;
+    background-color: #eff7f6;
+    margin: 5px;
+    border-radius: 5px;
+    border:2px solid transparent;
+}
+form .namediv:has(input:focus),.passdiv:has(input:focus){
+    border: 1.4px solid #4CAF50;
+}
+.card button{
+    margin-top: 21px;
+    /* background-color: #1AB69D; */
+    background-color: #4CAF50;
+    color:white;
+    border-radius: 6px;
+    padding:7px 20px;
+    font-size: 15px;
+    font-weight:600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.card button:hover{
+    background-color:#45a049;
+}
+.card button:active{
+    transform: scale(0.93);
+}
+.toastcontainer{
+    top: 5px;
+}
+nav img{
+    width:150px;
+}
+
+nav{
+    width:max-width;
+    height: 12vh;
+    padding: 2px 10px;
+    background-color:white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 5px 5px 10px lightgray;
+}
+nav .userinfo{
+    width: 15vw;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+}
+.userinfo h3{
+    color:#333;
+    font-size: 20px;
+    font-weight: 600;
+    padding:0px 10px;
+}
+.userinfo img{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 5px gray;
+    cursor: pointer;
+}
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    z-index: 10;
+    width: 150px;
+}
+
+.dropdown-menu li {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #333;
+    font-weight:400;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu li:hover {
+    background-color: #f9f9f9;
+}
+
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}

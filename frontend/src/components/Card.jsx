@@ -2,16 +2,17 @@ import { Link,useNavigate} from "react-router-dom";
 import {ToastContainer} from 'react-toastify';
 import {useState} from 'react';
 import { handleError,handleSuccess } from "../utils";
-import '../Card.css';
+import '../styles/Card.css';
 function Card(props)
 {
+    const PORT=import.meta.env.VITE_PORT;
     let link="/login";
-    let url="http://localhost:8000/auth/signup";
+    let url=`${PORT}auth/signup`;
     let navigate=useNavigate();
     if(props.title==="Login")
     {
         link="/signup";
-        url="http://localhost:8000/auth/login";
+        url=`${PORT}auth/login`;
     }
     const [info,setInfo]=useState(
         {
@@ -50,7 +51,13 @@ function Card(props)
                 }
                 setTimeout(
                     ()=>{
-                        navigate("/home");
+                        if(url===`${PORT}auth/login`)
+                        {
+                            navigate("/home");
+                        }
+                        else{
+                            navigate("/login");
+                        }
                     },2000
                 );
             }
@@ -72,27 +79,36 @@ function Card(props)
             handleError(err);
         };
     }
+    const [passwordVisible, setPasswordVisible] = useState(false);
+
+    const handleTogglePassword = () => {
+      setPasswordVisible(!passwordVisible);
+    };
     return(
+        <>
+        <nav>
+        <img src="./src/assets/aitam.png" alt=""/>
+      </nav>
         <main>
-        <div className="card">
-            <form onSubmit={handleonSubmit}>
-                <h1>{props.title}</h1>
-                <div className="namediv">
-                    <i className="fa-solid fa-user"></i>
-                    <input onChange={handleChange} type="text" name="username" placeholder="Enter your username"/>
-                </div>
-                <div className="passdiv">
-                    <i className="fa-solid fa-lock"></i>
-                    <input onChange={handleChange} type="password" name="password" placeholder="Enter you password"/>
-                    <i className="fa-solid fa-eye"></i>
-                </div>
-                <p>{props.desc}<Link to={link}>{props.subtitle}</Link></p>
-                <button>{props.title}</button>
-            </form>
+       <div className="card">
+      <form onSubmit={handleonSubmit}>
+        <h1>{props.title}</h1>
+        <div className="namediv">
+          <i className="fa-solid fa-user"></i>
+          <input onChange={handleChange} type="text" name="username" placeholder="Enter your username" autoComplete="off"/>
         </div>
+        <div className="passdiv">
+          <i className="fa-solid fa-lock"></i>
+          <input onChange={handleChange} type={passwordVisible ? "text" : "password"} name="password" placeholder="Enter your password"/>
+          <i className={`fa-solid ${passwordVisible ? "fa-eye-slash" : "fa-eye"}`}onClick={handleTogglePassword} id="eye"></i>
+        </div>
+        <p>{props.desc}<Link to={link}>{props.subtitle}</Link></p>
+        <button>{props.title}</button>
+      </form>
+    </div>
         <ToastContainer className="toastcontainer"/>
     </main>
-    
+    </>
     );
 }
 export default Card;

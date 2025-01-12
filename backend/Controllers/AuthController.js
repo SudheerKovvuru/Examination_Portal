@@ -24,6 +24,7 @@ const login = async (req, res) => {
         const {username,password}=req.body;
         const user= await UserModel.findOne({username});
         if(!user){
+            console.log("User not found");
             return res.status(403).json({message:"User not found",success:false});
         }
         const isPasswordValid=await bycrypt.compare(password,user.password);

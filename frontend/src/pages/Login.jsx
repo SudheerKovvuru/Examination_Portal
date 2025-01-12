@@ -1,8 +1,8 @@
-import Card from "../components/card";
+import Card from "../components/Card";
 function Login()
 {
     return(
-        <Card title="Login" subtitle="Signup" desc="Not a user? " />
+        <Card title="Login" subtitle="Signup" desc="Don't have account? " />
 );
 }
 export default Login;
