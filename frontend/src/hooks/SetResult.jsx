@@ -1,3 +1,4 @@
+import { postServerData } from "../helper/Helper"
 import * as Action from "../redux/ResultReducer"
 
 export const PushAnswer=(result)=>async(dispatch)=>{
@@ -15,4 +16,17 @@ export const updateResult=(index)=>async(dispatch)=>{
     }catch(error){
         console.log(error)
     }
+}
+
+
+export const usePublishResult=(resultdata)=>{
+    const {result,username}=resultdata;
+    (async()=>{
+        try {
+            if(result != []&& !username) throw new Error("couldn't get result");
+            await postServerData(import.meta.env.VITE_RESULT,resultdata,data=>data)
+        } catch (error) {
+            console.log(error)
+        }
+    })();
 }

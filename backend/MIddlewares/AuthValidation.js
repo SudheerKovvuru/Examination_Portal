@@ -24,4 +24,5 @@ const signupValidation = (req, res, next) => {
     next();
 };
 
+
 export { loginValidation, signupValidation };

@@ -3,16 +3,20 @@ import '../styles/Result.css';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { earnPoints } from '../helper/Helper';
+import { usePublishResult } from '../hooks/SetResult';
 function Result()
 {
     const navigate=useNavigate();
 
-    const {questions:{queue,answers},result:{result,userId}}=useSelector(state=>state);
-    // useEffect(()=>{
-    //     console.log(result);
-    // })
+    const{queue,answers}=useSelector(state=>state.questions);
+    const {result}=useSelector(state=>state.result);
     const totalMarks=queue.length*10;
     const earnMarks=earnPoints(result,answers,10);
+    const achieved = earnMarks >= totalMarks / 2 ? "passed" : "failed";
+    usePublishResult({
+        result,username:localStorage.getItem("username"),correct:earnMarks,marks:totalMarks,achieved:achieved
+    })
+
     return(
         <>
         <nav>
@@ -41,6 +45,10 @@ function Result()
             <div className="result-section">
                 <h4>Marks Obtained</h4>
                 <p>{earnMarks}</p>
+            </div>
+            <div className="result-section">
+                <h4>Status</h4>
+                <p style={{ color: achieved === "passed" ? "green" :"red",fontWeight:600 }}>{achieved}</p>
             </div>
             <button className='back-btn'onClick={()=>navigate("/home")}>Back</button>
         </div>

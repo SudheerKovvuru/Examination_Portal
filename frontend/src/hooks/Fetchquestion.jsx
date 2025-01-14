@@ -1,7 +1,7 @@
 import { useEffect,useState } from "react"
-import Data,{answers}from "../database/Data"
 import { useDispatch } from "react-redux"
 import * as Action from '../redux/QuestionReducer'
+import { getServerData } from "../helper/Helper"
 
 
 export const useFetchQuestion=()=>{
@@ -11,14 +11,16 @@ export const useFetchQuestion=()=>{
         setgetData(prev=>({...prev,isLoading:true}));
         (async()=>{
             try{
-                let question=await Data;
-
-                if(question.length>0)
+                // let question=await Data;
+                const questionurl=import.meta.env.VITE_QUESTION;
+                const [{questions,answers}]=await getServerData(questionurl);
+                // console.log(questions,answers);
+                if(questions.length>0)
                 {
                     setgetData(prev=>({...prev,isLoading:false}));
-                    setgetData(prev=>({...prev,apiData:{question,answers}}));
+                    setgetData(prev=>({...prev,apiData:questions}));
 
-                    dispatch(Action.startExamAction({question,answers}));
+                    dispatch(Action.startExamAction({question:questions,answers}));
                 }
                 else{
                     throw new Error("no question avaliable");
