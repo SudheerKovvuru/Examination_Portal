@@ -5,6 +5,7 @@ import Home from "./pages/home";
 import {useState} from "react";
 import Refresh from "./Refresh";
 import Quiz from "./pages/Quiz";
+import Result from "./pages/Result";
 function App()
 {
   const[authenticated,setAuthenticated]=useState(false);
@@ -19,7 +20,8 @@ function App()
       <Route path="/login" element={<Login/>}/>
       <Route path="/signup" element={<Signup/>}/>
       <Route path="/home" element={<PrivateRoute element={<Home/>}/>}/>
-      <Route path="/quiz" element={<Quiz/>}/>
+      <Route path="/quiz" element={<PrivateRoute element={<Quiz/>}/>}/>
+      <Route path="/result" element={<PrivateRoute element={<Result/>}/>}/>
     </Routes>
     </>
   );

@@ -7,18 +7,37 @@ const RulesPopup = ({onClose}) => {
   const handleCheckboxChange = () => {
     setIsAgreed(!isAgreed);
   };
+  const enterFullscreen = () => {
+    const elem = document.documentElement; // Full page goes fullscreen
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    }
+  };
   const navigate=useNavigate();
   const handleStartTest = () => {
     setTimeout(()=>{
       onClose();
       navigate("/quiz");
       document.getElementById("rulesPopup").style.display = "none";
+      enterFullscreen();
     },1000);
   };
+  const handleOverlayClick = () => {
+    onClose(); // Close the popup when the overlay is clicked
+  };
 
+  const handlePopupClick = (event) => {
+    event.stopPropagation(); // Prevent click events from bubbling to the overlay
+  };
   return (
-    <div className="overlay" id="rulesPopup">
-      <div className="popup-box">
+    <div className="overlay" id="rulesPopup" onClick={handleOverlayClick}>
+      <div className="popup-box" onClick={handlePopupClick}>
         <div className="popup-header">Exam Rules and Regulations</div>
         <div className="popup-content">
           <ol>

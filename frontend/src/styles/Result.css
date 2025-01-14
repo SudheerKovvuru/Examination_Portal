@@ -1,0 +1,57 @@
+/* General page styling */
+.result-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    margin: 0;
+  }
+  
+  /* Card styling */
+  .result-card {
+    background: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  
+  /* Quiz title styling */
+  .quiz-name {
+    font-size: 24px;
+    font-weight: bold;
+    color:white;
+    margin-bottom: 20px;
+    background-color:#4CAF50;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 10px 0px;
+  }
+
+.result-section{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    border-bottom: 1px solid lightgray;
+    margin:20px 10px;
+}
+.result-section p{
+    margin: 0px;
+    font-size: 15px;
+}
+.back-btn {
+    margin: 15px;
+    background-color: #4caf50;
+    color: #ffffff;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition:transform 0.2s ease;
+  }
+.back-btn:active{
+    transform: scale(0.93);
+}

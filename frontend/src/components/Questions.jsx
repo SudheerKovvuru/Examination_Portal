@@ -1,51 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Questions.css";
+import { useDispatch,useSelector } from "react-redux";
+import { useFetchQuestion } from "../hooks/Fetchquestion";
+import { updateResult } from "../hooks/SetResult";
 
-function Questions(){
+function Questions({onChecked}){
     const [checked,setChecked]=useState(undefined);
+    const {trace}=useSelector(state=>state.questions);
+    const result=useSelector(state=>state.result.result);
+    const [{isLoading,apiData,serverError}]=useFetchQuestion();
 
-    const onSelect=()=>{
-        setChecked(true)
-        console.log('radio button change');
+
+    const questions=useSelector(state=>state.questions.queue[state.questions.trace]);
+    const dispatch=useDispatch();
+    useEffect(()=>{
+        // console.log({trace,checked})
+        dispatch(updateResult({trace,checked}));
+    },[checked])
+
+    useEffect(()=>{
+      // console.log(isLoading);
+      // console.log(apiData);
+      // console.log(serverError);
+    });
+    function onSelect(i){
+        onChecked(i);
+        setChecked(i);
+        dispatch(updateResult({trace,checked}));
     }
+    const handleClick = (event, i) => {
+      const input = event.currentTarget.querySelector("input");
+      if (input) {
+        input.checked = true;
+        onSelect(i);
+      }
+    };
+    // if(isLoading) return <h3>isLoading</h3>
+    // if(serverError) return <h3>{serverError|| "unknow error"}</h3>
     return(
-        // <div className="questions">
-        //     <h2>Simple question 1</h2>
-        //     <ul>
-        //         <li><input 
-        //         type="radio" 
-        //         value={checked} 
-        //         name="options" 
-        //         id="q1-option" onChange={onSelect}/>
-        //         <label htmlFor="q1-option">options</label>
-        //         <div className="check">
-
-        //         </div>
-        //         </li>
-        //     </ul>
-        // </div>
     <div className="container">
-      <p className="question">What is the capital of France?</p>
-      <form className="options-container">
-        <label className="option">
-          <input type="radio" name="option" value="Berlin" className="radio" />
-          A. Berlin
-        </label>
-        <label className="option">
-          <input type="radio" name="option" value="Madrid" className="radio" />
-          B. Madrid
-        </label>
-        <label className="option">
-          <input type="radio" name="option" value="Paris" className="radio" />
-          C. Paris
-        </label>
-        <label className="option">
-          <input type="radio" name="option" value="Rome" className="radio" />
-          D. Rome
-        </label>
-      </form>
+      <p className="question">{questions?.question}</p>
+      <ul key={questions?.id}>
+            {
+                questions?.options.map((q, i) => (
+                    <li key={i}>
+                        <input 
+                            type="radio"
+                            value={false}
+                            name="options"
+                            id={`q${i}-option`}
+                            onChange={() => onSelect(i)}
+                        />
+
+                        <label htmlFor={`q${i}-option`}>{q}</label>
+                        <div className={`check ${result[trace] == i ? 'checked' : ''}`}></div>
+                    </li>
+                ))
+            }
+        </ul>
 </div>
     );
 }
-
 export default Questions;

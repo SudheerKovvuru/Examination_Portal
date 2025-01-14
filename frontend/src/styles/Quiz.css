@@ -1,19 +1,22 @@
 .questionpage{
     max-width: 600px;
+    height:max-content;
     margin:20px  auto;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     background-color: white;
+    display:flex;
+    flex-direction:column;
+    justify-content: space-around;
   }
 .grid{
-    margin:auto;
-    margin-top: 50px;
     width: 600px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    align-self: baseline;
 }
 .grid button{
     padding:8px 20px;
@@ -22,6 +25,7 @@
     background-color: white;
     color:#4CAF50;
     transition: transform 0.2s ease;
+    cursor:pointer;
 }
 .grid button:hover{
     background-color: #4CAF50;
