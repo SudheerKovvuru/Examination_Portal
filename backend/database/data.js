@@ -1,3 +1,5 @@
+export const examname="JavaScript InterView Questions";
+
 export default [
     {
         "id": 1,
