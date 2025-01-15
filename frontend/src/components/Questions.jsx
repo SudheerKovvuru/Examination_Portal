@@ -28,13 +28,6 @@ function Questions({onChecked}){
         setChecked(i);
         dispatch(updateResult({trace,checked}));
     }
-    const handleClick = (event, i) => {
-      const input = event.currentTarget.querySelector("input");
-      if (input) {
-        input.checked = true;
-        onSelect(i);
-      }
-    };
     // if(isLoading) return <h3>isLoading</h3>
     // if(serverError) return <h3>{serverError|| "unknow error"}</h3>
     return(

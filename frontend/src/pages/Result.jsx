@@ -13,10 +13,11 @@ function Result()
     const totalMarks=queue.length*10;
     const earnMarks=earnPoints(result,answers,10);
     const achieved = earnMarks >= totalMarks / 2 ? "passed" : "failed";
-    usePublishResult({
-        result,username:localStorage.getItem("username"),correct:earnMarks,marks:totalMarks,achieved:achieved
-    })
-
+    useEffect(()=>{
+        usePublishResult({
+            result,username:localStorage.getItem("username"),correct:earnMarks,marks:totalMarks,achieved:achieved
+        })
+    },[result, earnMarks, totalMarks, achieved])
     return(
         <>
         <nav>

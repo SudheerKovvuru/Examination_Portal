@@ -23,8 +23,10 @@ export const usePublishResult=(resultdata)=>{
     const {result,username}=resultdata;
     (async()=>{
         try {
-            if(result != []&& !username) throw new Error("couldn't get result");
-            await postServerData(import.meta.env.VITE_RESULT,resultdata,data=>data)
+            if(result.length != 0 && username)
+            {
+                await postServerData(import.meta.env.VITE_RESULT,resultdata,data=>data);
+            }   
         } catch (error) {
             console.log(error)
         }
