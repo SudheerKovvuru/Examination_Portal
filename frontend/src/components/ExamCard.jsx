@@ -3,7 +3,7 @@ import "../styles/ExamCard.css";
 import RulesPopup from "./RulesPopup";
 import { useState } from "react";
 
-const ExamCard = () => {
+const ExamCard = ({index,exam}) => {
   const [showPopup, setShowPopup] = useState(false);
   const handleButtonClick = () => {
     setShowPopup(true);
@@ -20,7 +20,7 @@ const ExamCard = () => {
           <i className="fa-solid fa-medal" id="green-icon"></i>
         </div>
         <div className="text-section">
-          <div className="title">Mid-1 Internal Test</div>
+          <div className="title">{exam}</div>
           <div className="details">12 MCQ's · 10 Marks</div>
         </div>
       </div>

@@ -1,20 +1,24 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "../styles/ExamTabs.css";
 import ExamCard from "../components/ExamCard";
+import { useFetchExam } from "../hooks/FetchExam";
+import { useSelector } from "react-redux";
+import { useFetchQuestion } from "../hooks/Fetchquestion";
 function ExamTabs() {
-    const [activeTab, setActiveTab] = useState("previous exams");
-
+    const [activeTab, setActiveTab] = useState("previous exams")
+    const fetchExam = useFetchExam(); // Get the fetch function from the hook
+    const examNames = useSelector((state) => state.examnames.queue); // Correct selector to match your reducer
+    useEffect(() => {
+        fetchExam(); // Call the fetch function on component mount
+    }, []);
     const renderContent = () => {
         switch (activeTab) {
             case "previous exams":
                 return (
                     <div className="tab-content">
-                        <ExamCard/>
-                        <ExamCard/>
-                        <ExamCard/>
-                        <ExamCard/>
-                        <ExamCard/>
-                        <ExamCard/>
+                        {examNames.map((exam,index)=>(
+                            <ExamCard key={index} exam={exam}/>
+                        ))}
                     </div>
                 );
             case "ongoing exams":

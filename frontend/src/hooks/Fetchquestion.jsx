@@ -13,6 +13,9 @@ export const useFetchQuestion=()=>{
             try{
                 // let question=await Data;
                 const questionurl=import.meta.env.VITE_QUESTION;
+                // const data=await getServerData(questionurl);
+                // const examNames = data.map((exam) => exam.examname);
+                // console.log(examNames)
                 const [{questions,answers}]=await getServerData(questionurl);
                 // console.log(questions,answers);
                 if(questions.length>0)
