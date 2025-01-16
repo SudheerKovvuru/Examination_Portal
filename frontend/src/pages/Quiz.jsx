@@ -4,7 +4,7 @@ import '../styles/Quiz.css';
 import {useSelector,useDispatch} from 'react-redux';
 import { MoveNextQuestion ,MovePrevQuestion} from "../hooks/Fetchquestion";
 import {PushAnswer} from "../hooks/SetResult";
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import { handleError,handleSuccess } from "../utils";
 import { ToastContainer } from "react-toastify";
 
@@ -14,6 +14,8 @@ function Quiz()
     const {queue,trace}=useSelector(state=>state.questions);
     const result=useSelector(state=>state.result.result);
     const navigate=useNavigate();
+    const location=useLocation();
+    const examname=location.state;
     // useEffect(()=>{
     //     console.log(result);
     // })
@@ -75,11 +77,11 @@ function Quiz()
     return(
         <>
         <nav>
-            <h3>Name of the Exam</h3>
+            <h3>{examname}</h3>
             <h3>Time Left 00:00:00</h3>
         </nav>
         <div className="questionpage">
-            <Questions onChecked={onChecked}/>
+            <Questions onChecked={onChecked} examname={examname}/>
             <div className="grid">
                 {trace>0?<button className="Prev-btn" onClick={onPrev}>Previous</button>:<div></div>}
                 <button className="Next-btn" onClick={onNext}>{trace<queue.length-1?"Next":"Submit"}</button>

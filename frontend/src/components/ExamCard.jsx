@@ -28,7 +28,7 @@ const ExamCard = ({index,exam}) => {
         <div className="time">Jan 30, 2025</div>
         <button className="join-button" onClick={handleButtonClick}>Take Test</button>
       </div>
-      {showPopup && <RulesPopup onClose={handleClosePopup} />}
+      {showPopup && <RulesPopup onClose={handleClosePopup} exam={exam} />}
     </div>
   );
 };

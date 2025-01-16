@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "../styles/RulesPopup.css";
 import { useNavigate} from "react-router-dom";
-const RulesPopup = ({onClose}) => {
+import Quiz from "../pages/Quiz";
+const RulesPopup = ({onClose,exam}) => {
   const [isAgreed, setIsAgreed] = useState(false);
 
   const handleCheckboxChange = () => {
@@ -23,7 +24,7 @@ const RulesPopup = ({onClose}) => {
   const handleStartTest = () => {
     setTimeout(()=>{
       onClose();
-      navigate("/quiz");
+      navigate("/quiz",{state:exam});
       document.getElementById("rulesPopup").style.display = "none";
       enterFullscreen();
     },1000);

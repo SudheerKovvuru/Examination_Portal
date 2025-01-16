@@ -1,10 +1,10 @@
 import { useEffect,useState } from "react"
 import { useDispatch } from "react-redux"
 import * as Action from '../redux/QuestionReducer'
-import { getServerData } from "../helper/Helper"
+import { getServerData, getServerDataBy } from "../helper/Helper"
 
 
-export const useFetchQuestion=()=>{
+export const useFetchQuestion=(examname)=>{
     const dispatch=useDispatch();
     const [getData,setgetData]=useState({isLoading:false,apiData:[],serverError:null})
     useEffect(()=>{
@@ -16,7 +16,7 @@ export const useFetchQuestion=()=>{
                 // const data=await getServerData(questionurl);
                 // const examNames = data.map((exam) => exam.examname);
                 // console.log(examNames)
-                const [{questions,answers}]=await getServerData(questionurl);
+                const [{questions,answers}]=await getServerDataBy(questionurl,examname);
                 // console.log(questions,answers);
                 if(questions.length>0)
                 {

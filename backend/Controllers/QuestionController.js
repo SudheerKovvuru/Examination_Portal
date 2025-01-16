@@ -4,9 +4,19 @@ import Results from "../Models/resultSchema.js";
 import questions,{answers,examname} from "../database/data.js";
 import questions2,{answers2,examname2} from "../database/data2.js";
 import questions3,{answers3,examname3} from "../database/data3.js";
+import questions4,{answers4,examname4} from "../database/data4.js";
 export async function getQuestions(req,res){
     try {
         const q=await Questions.find()
+        res.json(q)
+    } catch (error) {
+        res.json({error})
+    }
+}
+export async function getQuestionsBy(req,res){
+    try {
+        const {examname}=req.body;
+        const q=await Questions.find({examname})
         res.json(q)
     } catch (error) {
         res.json({error})
@@ -18,6 +28,7 @@ export async function insertQuestions(req, res) {
             {examname,questions,answers},
             {examname:examname2,questions:questions2,answers:answers2},
             {examname:examname3,questions:questions3,answers:answers3},
+            {examname:examname4,questions:questions4,answers:answers4},
         ]);
 
         res.json({ msg: "Data saved successfully."});
