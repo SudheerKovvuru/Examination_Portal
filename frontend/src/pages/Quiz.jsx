@@ -65,7 +65,7 @@ function Quiz()
             handleSuccess("Test Submited Successfully");
             setTimeout(()=>{
                 document.exitFullscreen();
-                navigate("/result");
+                navigate("/result",{state:examname});
             },3000)
         }
         setChecked(undefined);

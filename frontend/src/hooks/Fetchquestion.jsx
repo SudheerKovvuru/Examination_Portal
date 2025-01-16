@@ -16,14 +16,14 @@ export const useFetchQuestion=(examname)=>{
                 // const data=await getServerData(questionurl);
                 // const examNames = data.map((exam) => exam.examname);
                 // console.log(examNames)
-                const [{questions,answers}]=await getServerDataBy(questionurl,examname);
+                const [{questions}]=await getServerDataBy(questionurl,examname);
                 // console.log(questions,answers);
                 if(questions.length>0)
                 {
                     setgetData(prev=>({...prev,isLoading:false}));
                     setgetData(prev=>({...prev,apiData:questions}));
 
-                    dispatch(Action.startExamAction({question:questions,answers}));
+                    dispatch(Action.startExamAction({question:questions}));
                 }
                 else{
                     throw new Error("no question avaliable");

@@ -7,7 +7,16 @@ import questions3,{answers3,examname3} from "../database/data3.js";
 import questions4,{answers4,examname4} from "../database/data4.js";
 export async function getQuestions(req,res){
     try {
-        const q=await Questions.find()
+        const q=await Questions.find({},{answers:0})
+        res.json(q)
+    } catch (error) {
+        res.json({error})
+    }
+}
+export async function getAnswers(req,res){
+    try {
+        const {examname}=req.body;
+        const q=await Questions.find({examname},{answers:1})
         res.json(q)
     } catch (error) {
         res.json({error})
@@ -16,7 +25,7 @@ export async function getQuestions(req,res){
 export async function getQuestionsBy(req,res){
     try {
         const {examname}=req.body;
-        const q=await Questions.find({examname})
+        const q=await Questions.find({examname},{answers:0})
         res.json(q)
     } catch (error) {
         res.json({error})

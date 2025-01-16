@@ -9,10 +9,16 @@ export const QuestionReducer=createSlice({
     },
     reducers:{
         startExamAction:(state,action)=>{
-            let {question,answers}=action.payload
+            let {question}=action.payload
             return {
                 ...state,
                 queue:question,
+            }
+        },
+        fetchAnswersAction:(state,action)=>{
+            let {answers}=action.payload
+            return{
+                ...state,
                 answers,
             }
         },
@@ -31,6 +37,6 @@ export const QuestionReducer=createSlice({
     }
 })
 
-export const{startExamAction,moveNextAction,movePrevAction} =QuestionReducer.actions;
+export const{startExamAction,fetchAnswersAction,moveNextAction,movePrevAction} =QuestionReducer.actions;
 export default QuestionReducer.reducer;
 

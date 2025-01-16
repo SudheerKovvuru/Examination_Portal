@@ -1,13 +1,19 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Result.css';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { earnPoints } from '../helper/Helper';
 import { usePublishResult } from '../hooks/SetResult';
+import { useFetchAns } from '../hooks/FetchAns';
 function Result()
 {
     const navigate=useNavigate();
-
+    const location=useLocation();
+    const examname=location.state;
+    const fetchAns=useFetchAns(examname);
+    useEffect(() => {
+        fetchAns();
+    }, []);
     const{queue,answers}=useSelector(state=>state.questions);
     const {result}=useSelector(state=>state.result);
     const totalMarks=queue.length*10;
