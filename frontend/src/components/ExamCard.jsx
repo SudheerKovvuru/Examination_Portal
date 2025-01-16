@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useFetchQuestion } from "../hooks/Fetchquestion";
 import { getSideInfo } from "../helper/Helper";
 
-const ExamCard = ({index,exam}) => {
+const ExamCard = ({index,exam,createAt,endAt,noofqs}) => {
   const [showPopup, setShowPopup] = useState(false);
   const handleButtonClick = () => {
     setShowPopup(true);
@@ -14,27 +14,18 @@ const ExamCard = ({index,exam}) => {
   const handleClosePopup = () => {
     setShowPopup(false);
   };
-  const questionurl = import.meta.env.VITE_QUESTION;
-  const [noofqs,setNoofqs]=useState(0);
-  const [createAt,setCreateAt]=useState();
-  async function fetchData() {
-    try {
-        const data = await getSideInfo(questionurl, exam);
-        const { questions, createdAt } = data[0];
-        setNoofqs(questions.length)
-        const date = new Date(createdAt);
-          const formattedDate = date.toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-          });
-        setCreateAt(formattedDate);
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
-}
-fetchData();
-
+  const date = new Date(createAt);
+  createAt = date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    // year: 'numeric',
+  });
+  const date2 = new Date(endAt);
+  endAt = date2.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    // year: 'numeric',
+  });
   return (
     <div className="ecard">
       <div className="card-left">
@@ -47,7 +38,7 @@ fetchData();
         </div>
       </div>
       <div className="card-right">
-        <div className="time">{createAt}</div>
+        <div className="time">{createAt} to {endAt}</div>
         <button className="join-button" onClick={handleButtonClick}>Take Test</button>
       </div>
       {showPopup && <RulesPopup onClose={handleClosePopup} exam={exam} />}

@@ -1,10 +1,10 @@
 import Questions from "../Models/questionSchema.js";
 import resultSchema from "../Models/resultSchema.js";
 import Results from "../Models/resultSchema.js";
-import questions,{answers,examname} from "../database/data.js";
+import questions,{answers,examname,startDate1} from "../database/data.js";
 import questions2,{answers2,examname2} from "../database/data2.js";
 import questions3,{answers3,examname3} from "../database/data3.js";
-import questions4,{answers4,examname4} from "../database/data4.js";
+import questions4,{answers4,examname4,startDate4} from "../database/data4.js";
 export async function getQuestions(req,res){
     try {
         const q=await Questions.find({},{answers:0})
@@ -34,10 +34,10 @@ export async function getQuestionsBy(req,res){
 export async function insertQuestions(req, res) {
     try {
         await Questions.insertMany([
-            {examname,questions,answers},
+            {examname,questions,answers,createdAt:startDate1},
             {examname:examname2,questions:questions2,answers:answers2},
             {examname:examname3,questions:questions3,answers:answers3},
-            {examname:examname4,questions:questions4,answers:answers4},
+            {examname:examname4,questions:questions4,answers:answers4,createdAt:startDate4},
         ]);
 
         res.json({ msg: "Data saved successfully."});
