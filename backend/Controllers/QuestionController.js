@@ -1,5 +1,4 @@
 import Questions from "../Models/questionSchema.js";
-import resultSchema from "../Models/resultSchema.js";
 import Results from "../Models/resultSchema.js";
 import questions,{answers,examname,startDate1} from "../database/data.js";
 import questions2,{answers2,examname2} from "../database/data2.js";

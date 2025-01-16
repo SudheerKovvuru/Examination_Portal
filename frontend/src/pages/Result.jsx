@@ -23,7 +23,7 @@ function Result()
         usePublishResult({
             result,username:localStorage.getItem("username"),correct:earnMarks,marks:totalMarks,achieved:achieved
         })
-    },[result, earnMarks, totalMarks, achieved])
+    },[result])
     return(
         <>
         <nav>

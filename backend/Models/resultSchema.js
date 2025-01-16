@@ -7,8 +7,8 @@ const resultModel=new Schema({
     result:{type:Array,default:[]},
     correct:{type:Number,default:0},
     marks:{type:Number,default:0},
-    achived:{type:String,default:''},
+    achieved:{type:String,default:''},
     createdAt:{type:Date,default:Date.now}
 })
 
-export default mongoose.model('result',resultModel);
+export default mongoose.model('Result',resultModel);
