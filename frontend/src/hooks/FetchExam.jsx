@@ -10,7 +10,6 @@ export const useFetchExam = () => {
             const questionurl = import.meta.env.VITE_QUESTION;
             const data = await getServerData(questionurl);
             const examnames = data.map((exam) => exam.examname);
-            // console.log(examnames);
             dispatch(getExamNamesAction({ examnames }));
         } catch (error) {
             console.log(error);

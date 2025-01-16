@@ -31,7 +31,7 @@ function Questions({onChecked,examname}){
     // if(serverError) return <h3>{serverError|| "unknow error"}</h3>
     return(
     <div className="container">
-      <p className="question">{questions?.question}</p>
+      <p className="question">{trace+1}.{questions?.question}</p>
       <ul key={questions?.id}>
             {
                 questions?.options.map((q, i) => (

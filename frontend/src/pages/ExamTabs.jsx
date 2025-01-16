@@ -6,10 +6,10 @@ import { useSelector } from "react-redux";
 import { useFetchQuestion } from "../hooks/Fetchquestion";
 function ExamTabs() {
     const [activeTab, setActiveTab] = useState("previous exams")
-    const fetchExam = useFetchExam(); // Get the fetch function from the hook
-    const examNames = useSelector((state) => state.examnames.queue); // Correct selector to match your reducer
+    const fetchExam = useFetchExam();
+    const examNames = useSelector((state) => state.examnames.queue);
     useEffect(() => {
-        fetchExam(); // Call the fetch function on component mount
+        fetchExam();
     }, []);
     const renderContent = () => {
         switch (activeTab) {
