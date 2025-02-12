@@ -72,4 +72,15 @@
   .join-button:active{
     transform: scale(0.93);
   }
+  .disabled-button {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  .disabled-button:hover {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  .disabled-button:active{
+    transform: scale(1);
+  }
   

@@ -72,6 +72,7 @@ function ExamTabs() {
                                 createAt={item.createdAt} 
                                 endAt={item.endAt}
                                 noofqs={item.noofqs}
+                                status={"Result"}
                                 />
                             ))
                         ) : (
@@ -89,6 +90,7 @@ function ExamTabs() {
                                 createAt={item.createdAt} 
                                 endAt={item.endAt}
                                 noofqs={item.noofqs}
+                                status={"Take Test"}
                                 />
                             ))
                         ) : (
@@ -106,6 +108,7 @@ function ExamTabs() {
                                 createAt={item.createdAt} 
                                 endAt={item.endAt}
                                 noofqs={item.noofqs}
+                                status={"Upcoming"}
                                 />
                             ))
                         ) : (

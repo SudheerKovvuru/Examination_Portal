@@ -1,13 +1,22 @@
 import React, { useEffect } from "react";
 import "../styles/ExamCard.css";
 import RulesPopup from "./RulesPopup";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useFetchQuestion } from "../hooks/Fetchquestion";
 import { getSideInfo } from "../helper/Helper";
 
-const ExamCard = ({index,exam,createAt,endAt,noofqs}) => {
+const ExamCard = ({index,exam,createAt,endAt,noofqs,status}) => {
   const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
+  const handleClick = () => {
+    if (status === "Take Test") {
+      handleButtonClick();
+    } else if (status === "Result") {
+      navigate("/result");
+    }
+  };
   const handleButtonClick = () => {
     setShowPopup(true);
   };
@@ -39,7 +48,7 @@ const ExamCard = ({index,exam,createAt,endAt,noofqs}) => {
       </div>
       <div className="card-right">
         <div className="time">{createAt} to {endAt}</div>
-        <button className="join-button" onClick={handleButtonClick}>Take Test</button>
+        <button className={`join-button ${status === "Upcoming" ? "disabled-button" : ""}`}  onClick={status === "Upcoming" ?undefined:handleClick} disabled={status==="Upcoming"}>{status}</button>
       </div>
       {showPopup && <RulesPopup onClose={handleClosePopup} exam={exam} />}
     </div>

@@ -60,10 +60,10 @@ export async function deleteQuestions(req,res) {
 
 
 
-
 export async function getResult(req,res) {
     try {
-        const r=await Results.find();
+        const {username,examname}=req.body;
+        const r=await Results.findOne({username,examname});
         res.json(r)
     } catch (error) {
      res.json({error})   
@@ -73,6 +73,10 @@ export async function postResult(req,res) {
     try {
         const {username,result,correct,marks,achieved,examname}=req.body;
         if(!username && !result) throw new Error("Data not provided..");
+        const existingResult = await Results.findOne({ username, examname });
+        if (existingResult) {
+            return res.json({ msg: "Result already exists for this user and exam." });
+        }
         await Results.create({username,result,correct,marks,achieved,examname});
         res.json({msg:"result Saved Successfully.."})
     } catch (error) {
