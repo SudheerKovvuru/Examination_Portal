@@ -11,19 +11,22 @@ function Result()
     const location=useLocation();
     const examname=location.state;
     const fetchAns=useFetchAns(examname);
-    useEffect(() => {
-        fetchAns();
-    }, []);
     const{queue,answers}=useSelector(state=>state.questions);
     const {result}=useSelector(state=>state.result);
     const totalMarks=queue.length*10;
-    const earnMarks=earnPoints(result,answers,10);
-    const achieved = earnMarks >= totalMarks / 2 ? "passed" : "failed";
+    useEffect(() => {
+        fetchAns();
+    }, []);
     useEffect(()=>{
-        usePublishResult({
-            result,username:localStorage.getItem("username"),correct:earnMarks,marks:totalMarks,achieved:achieved
-        })
-    },[result])
+        if(answers.length>0)
+        {
+            const earnMarks=earnPoints(result,answers,10);
+            const achieved = earnMarks >= totalMarks / 2 ? "passed" : "failed";
+            usePublishResult({
+                result,username:localStorage.getItem("username"),correct:earnMarks,marks:totalMarks,achieved:achieved,examname:examname
+            })
+        }
+    },[answers])
     return(
         <>
         <nav>
@@ -47,15 +50,15 @@ function Result()
             </div>
             <div className="result-section">
                 <h4>correct answers</h4>
-                <p>{earnMarks/10}</p>
+                {/* <p>{earnMarks/10}</p> */}
             </div>
             <div className="result-section">
                 <h4>Marks Obtained</h4>
-                <p>{earnMarks}</p>
+                {/* <p>{earnMarks}</p> */}
             </div>
             <div className="result-section">
                 <h4>Status</h4>
-                <p style={{ color: achieved === "passed" ? "green" :"red",fontWeight:600 }}>{achieved}</p>
+                {/* <p style={{ color: achieved === "passed" ? "green" :"red",fontWeight:600 }}>{achieved}</p> */}
             </div>
             <button className='back-btn'onClick={()=>navigate("/home")}>Back</button>
         </div>
