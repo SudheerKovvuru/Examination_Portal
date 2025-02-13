@@ -12,6 +12,7 @@ function ExamTabs() {
         ongoing: [],
         upcoming: [],
     });
+    const [isLoading, setIsLoading] = useState(true); // Loading state
 
     const fetchExam = useFetchExam();
     const examNames = useSelector((state) => state.examnames.queue);
@@ -57,9 +58,18 @@ function ExamTabs() {
             }
         }
         setClassifiedExams({ previous, ongoing, upcoming });
+        setIsLoading(false);
     };
 
     const renderContent = () => {
+        if (isLoading) {
+            return (
+                <div className="loader-container">
+                    <div className="loader"></div>
+                    <p>Loading exams...</p>
+                </div>
+            );
+        }
         switch (activeTab) {
             case "previous exams":
                 return (

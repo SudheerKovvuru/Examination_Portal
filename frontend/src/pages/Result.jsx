@@ -2,31 +2,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Result.css';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { earnPoints } from '../helper/Helper';
-import { usePublishResult } from '../hooks/SetResult';
-import { useFetchAns } from '../hooks/FetchAns';
 function Result()
 {
     const navigate=useNavigate();
     const location=useLocation();
     const examname=location.state;
-    const fetchAns=useFetchAns(examname);
-    const{queue,answers}=useSelector(state=>state.questions);
-    const {result}=useSelector(state=>state.result);
-    const totalMarks=queue.length*10;
-    useEffect(() => {
-        fetchAns();
-    }, []);
-    useEffect(()=>{
-        if(answers.length>0)
-        {
-            const earnMarks=earnPoints(result,answers,10);
-            const achieved = earnMarks >= totalMarks / 2 ? "passed" : "failed";
-            usePublishResult({
-                result,username:localStorage.getItem("username"),correct:earnMarks,marks:totalMarks,achieved:achieved,examname:examname
-            })
-        }
-    },[answers])
     return(
         <>
         <nav>
@@ -42,11 +22,11 @@ function Result()
             </div>
             <div className="result-section">
                 <h4>Total no of question </h4>
-                <p>{queue.length}</p>
+                {/* <p>{queue.length}</p> */}
             </div>
             <div className="result-section">
                 <h4>Total marks:</h4>
-                <p>{totalMarks}</p>
+                {/* <p>{totalMarks}</p> */}
             </div>
             <div className="result-section">
                 <h4>correct answers</h4>
