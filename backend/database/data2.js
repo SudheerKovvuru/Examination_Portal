@@ -54,4 +54,4 @@ export default [
 ];
 
 export const answers2 = [2, 0, 1, 1, 1, 1, 1, 0, 1, 0];
-export const startDate2 = new Date('2025-02-11T10:00:00Z');
+export const startDate2 = new Date('2025-02-13T10:00:00Z');

@@ -28,6 +28,12 @@ function Quiz() {
         fetchAns();
     }, [examname]); // Added dependency
 
+    useEffect(()=>{
+        if(result.length==queue.length)
+        {
+            publishResult();
+        }
+    },[result]);
     // Define functions inside useCallback to avoid re-renders
     const handleFullscreenChange = useCallback(() => {
         if (!document.fullscreenElement) {
@@ -61,7 +67,6 @@ function Quiz() {
         if (answers.length > 0) {
             const earnMarks = earnPoints(result, answers, 10);
             const achieved = earnMarks >= totalMarks / 2 ? "passed" : "failed";
-
             usePublishResult({
                 result,
                 username: localStorage.getItem("username"),
@@ -85,7 +90,6 @@ function Quiz() {
             
             setTimeout(() => {
                 document.exitFullscreen();
-                publishResult();
                 navigate("/home");
             }, 3000);
         }

@@ -14,7 +14,7 @@ const ExamCard = ({index,exam,createAt,endAt,noofqs,status}) => {
     if (status === "Take Test") {
       handleButtonClick();
     } else if (status === "Result") {
-      navigate("/result");
+      navigate("/result",{state:exam});
     }
   };
   const handleButtonClick = () => {

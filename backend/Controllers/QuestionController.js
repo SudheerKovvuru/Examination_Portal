@@ -62,7 +62,7 @@ export async function deleteQuestions(req,res) {
 
 export async function getResult(req,res) {
     try {
-        const {username,examname}=req.body;
+        const {username,examname}=req.query;
         const r=await Results.findOne({username,examname});
         res.json(r)
     } catch (error) {

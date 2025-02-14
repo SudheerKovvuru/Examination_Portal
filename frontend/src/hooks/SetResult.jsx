@@ -1,4 +1,4 @@
-import { postServerData } from "../helper/Helper"
+import { getServerResult, postServerData } from "../helper/Helper"
 import * as Action from "../redux/ResultReducer"
 
 export const PushAnswer=(result)=>async(dispatch)=>{
