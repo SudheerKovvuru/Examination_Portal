@@ -33,10 +33,15 @@ export const QuestionReducer=createSlice({
                 ...state,
                 trace:state.trace-1
             }
+        },
+        ResetQuiz: (state) => { // ✅ Reset action
+            state.queue = [];
+            state.answers = [];
+            state.trace = 0;
         }
     }
 })
 
-export const{startExamAction,fetchAnswersAction,moveNextAction,movePrevAction} =QuestionReducer.actions;
+export const{startExamAction,fetchAnswersAction,moveNextAction,movePrevAction,ResetQuiz} =QuestionReducer.actions;
 export default QuestionReducer.reducer;
 

@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import { earnPoints } from '../helper/Helper';
 import { usePublishResult } from '../hooks/SetResult';
 import { useFetchAns } from '../hooks/FetchAns';
+import { ResetQuiz } from '../redux/QuestionReducer'
 
 function Quiz() {
     const navigate = useNavigate();
@@ -23,18 +24,37 @@ function Quiz() {
     const totalMarks = queue.length * 10;
 
     const [check, setChecked] = useState(undefined);
-
+    const [tabSwitchCount, setTabSwitchCount] = useState(0);
+    useEffect(() => {
+        // Disable right-click
+        document.addEventListener("contextmenu", (e) => e.preventDefault());
+    
+        // Disable common DevTools shortcuts
+        document.addEventListener("keydown", (e) => {
+            if (
+                e.keyCode === 123 || // F12
+                (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
+                (e.ctrlKey && e.shiftKey && e.keyCode === 74) // Ctrl+Shift+J
+            ) {
+                e.preventDefault();
+            }
+        });
+    
+        return () => {
+            document.removeEventListener("contextmenu", (e) => e.preventDefault());
+            document.removeEventListener("keydown", () => {});
+        };
+    }, []);
+    
     useEffect(() => {
         fetchAns();
-    }, [examname]); // Added dependency
-
-    useEffect(()=>{
-        if(result.length==queue.length)
-        {
+    }, [examname]);
+    useEffect(() => {
+        if (result.length === queue.length || tabSwitchCount > 1) {
             publishResult();
         }
-    },[result]);
-    // Define functions inside useCallback to avoid re-renders
+    }, [result,tabSwitchCount]);
+
     const handleFullscreenChange = useCallback(() => {
         if (!document.fullscreenElement) {
             handleError("You exited fullscreen mode. Please return to fullscreen to continue the exam.");
@@ -43,7 +63,16 @@ function Quiz() {
 
     const handleVisibilityChange = useCallback(() => {
         if (document.visibilityState === "hidden") {
-            handleError("Do not switch tabs during the exam!");
+            setTabSwitchCount(prev => {
+                const newCount = prev + 1;
+                if (newCount > 1) {
+                    handleError("You switched tabs multiple times. Submitting the test now.");
+                    autoSubmitQuiz();
+                } else {
+                    handleError("Do not switch tabs during the exam!");
+                }
+                return newCount;
+            });
         }
     }, []);
 
@@ -55,7 +84,7 @@ function Quiz() {
             document.removeEventListener("visibilitychange", handleVisibilityChange);
             document.removeEventListener("fullscreenchange", handleFullscreenChange);
         };
-    }, [handleVisibilityChange, handleFullscreenChange]); // Added dependencies
+    }, [handleVisibilityChange, handleFullscreenChange]);
 
     function onPrev() {
         if (trace > 0) {
@@ -75,7 +104,17 @@ function Quiz() {
                 achieved: achieved,
                 examname: examname
             });
+            dispatch(ResetQuiz());
         }
+    }
+
+    function autoSubmitQuiz() {
+        dispatch(PushAnswer(check));
+        handleSuccess("Test Submitted Automatically");
+        setTimeout(() => {
+            document.exitFullscreen();
+            navigate("/home");
+        }, 3000);
     }
 
     function onNext() {
@@ -87,7 +126,6 @@ function Quiz() {
         } else {
             dispatch(PushAnswer(check));
             handleSuccess("Test Submitted Successfully");
-            
             setTimeout(() => {
                 document.exitFullscreen();
                 navigate("/home");
