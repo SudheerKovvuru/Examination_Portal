@@ -25,6 +25,8 @@ function Quiz() {
 
     const [check, setChecked] = useState(undefined);
     const [tabSwitchCount, setTabSwitchCount] = useState(0);
+    const [timeLeft, setTimeLeft] = useState(30);
+
     useEffect(() => {
         // Disable right-click
         document.addEventListener("contextmenu", (e) => e.preventDefault());
@@ -50,10 +52,25 @@ function Quiz() {
         fetchAns();
     }, [examname]);
     useEffect(() => {
-        if (result.length === queue.length || tabSwitchCount > 1) {
+        const timer = setInterval(() => {
+            setTimeLeft(prevTime => {
+                if (prevTime <= 1) {
+                    clearInterval(timer);
+                    handleError("Time is up! Submitting the test automatically.");
+                    autoSubmitQuiz();
+                    return 0;
+                }
+                return prevTime - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, []);
+    useEffect(() => {
+        if (result.length === queue.length || tabSwitchCount > 1 || timeLeft === 0) {
             publishResult();
         }
-    }, [result,tabSwitchCount]);
+    }, [result,tabSwitchCount,timeLeft]);
 
     const handleFullscreenChange = useCallback(() => {
         if (!document.fullscreenElement) {
@@ -142,7 +159,7 @@ function Quiz() {
         <>
             <nav>
                 <h3>{examname}</h3>
-                <h3>Time Left 00:00:00</h3>
+                <h3>Time Left: {String(Math.floor(timeLeft / 60)).padStart(2, '0')}:{String(timeLeft % 60).padStart(2, '0')}</h3>
             </nav>
             <div className="questionpage">
                 <Questions onChecked={onChecked} examname={examname} />
