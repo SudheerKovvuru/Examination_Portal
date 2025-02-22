@@ -13,9 +13,12 @@ export const ResultReducer=createSlice({
         updateResultAction:(state,action)=>{
             const {trace,checked}=action.payload;
             state.result.fill(checked,trace,trace+1);
+        },
+        ResetQuiz1: (state) => {
+            state.result = [];
         }
     }
 })
 
-export const {setUserId,pushResultAction,updateResultAction}=ResultReducer.actions;
+export const {setUserId,pushResultAction,updateResultAction,ResetQuiz1}=ResultReducer.actions;
 export default ResultReducer.reducer;

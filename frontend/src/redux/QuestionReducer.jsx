@@ -34,7 +34,7 @@ export const QuestionReducer=createSlice({
                 trace:state.trace-1
             }
         },
-        ResetQuiz: (state) => { // ✅ Reset action
+        ResetQuiz: (state) => {
             state.queue = [];
             state.answers = [];
             state.trace = 0;

@@ -10,7 +10,8 @@ import { ToastContainer } from "react-toastify";
 import { earnPoints } from '../helper/Helper';
 import { usePublishResult } from '../hooks/SetResult';
 import { useFetchAns } from '../hooks/FetchAns';
-import { ResetQuiz } from '../redux/QuestionReducer'
+import { ResetQuiz } from '../redux/QuestionReducer';
+import { ResetQuiz1 } from "../redux/ResultReducer";
 
 function Quiz() {
     const navigate = useNavigate();
@@ -26,31 +27,11 @@ function Quiz() {
     const [check, setChecked] = useState(undefined);
     const [tabSwitchCount, setTabSwitchCount] = useState(0);
     const [timeLeft, setTimeLeft] = useState(30);
-
-    useEffect(() => {
-        // Disable right-click
-        document.addEventListener("contextmenu", (e) => e.preventDefault());
-    
-        // Disable common DevTools shortcuts
-        document.addEventListener("keydown", (e) => {
-            if (
-                e.keyCode === 123 || // F12
-                (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
-                (e.ctrlKey && e.shiftKey && e.keyCode === 74) // Ctrl+Shift+J
-            ) {
-                e.preventDefault();
-            }
-        });
-    
-        return () => {
-            document.removeEventListener("contextmenu", (e) => e.preventDefault());
-            document.removeEventListener("keydown", () => {});
-        };
-    }, []);
-    
+    const [showPopup, setShowPopup] = useState(false);
     useEffect(() => {
         fetchAns();
     }, [examname]);
+
     useEffect(() => {
         const timer = setInterval(() => {
             setTimeLeft(prevTime => {
@@ -66,42 +47,12 @@ function Quiz() {
 
         return () => clearInterval(timer);
     }, []);
+
     useEffect(() => {
         if (result.length === queue.length || tabSwitchCount > 1 || timeLeft === 0) {
             publishResult();
         }
-    }, [result,tabSwitchCount,timeLeft]);
-
-    const handleFullscreenChange = useCallback(() => {
-        if (!document.fullscreenElement) {
-            handleError("You exited fullscreen mode. Please return to fullscreen to continue the exam.");
-        }
-    }, []);
-
-    const handleVisibilityChange = useCallback(() => {
-        if (document.visibilityState === "hidden") {
-            setTabSwitchCount(prev => {
-                const newCount = prev + 1;
-                if (newCount > 1) {
-                    handleError("You switched tabs multiple times. Submitting the test now.");
-                    autoSubmitQuiz();
-                } else {
-                    handleError("Do not switch tabs during the exam!");
-                }
-                return newCount;
-            });
-        }
-    }, []);
-
-    useEffect(() => {
-        document.addEventListener("visibilitychange", handleVisibilityChange);
-        document.addEventListener("fullscreenchange", handleFullscreenChange);
-
-        return () => {
-            document.removeEventListener("visibilitychange", handleVisibilityChange);
-            document.removeEventListener("fullscreenchange", handleFullscreenChange);
-        };
-    }, [handleVisibilityChange, handleFullscreenChange]);
+    }, [result, tabSwitchCount, timeLeft]);
 
     function onPrev() {
         if (trace > 0) {
@@ -122,6 +73,7 @@ function Quiz() {
                 examname: examname
             });
             dispatch(ResetQuiz());
+            dispatch(ResetQuiz1());
         }
     }
 
@@ -141,12 +93,7 @@ function Quiz() {
             }
             dispatch(MoveNextQuestion());
         } else {
-            dispatch(PushAnswer(check));
-            handleSuccess("Test Submitted Successfully");
-            setTimeout(() => {
-                document.exitFullscreen();
-                navigate("/home");
-            }, 3000);
+            setShowPopup(true);
         }
         setChecked(undefined);
     }
@@ -155,6 +102,21 @@ function Quiz() {
         setChecked(check);
     }
 
+    function confirmSubmit() {
+        setShowPopup(false);
+        dispatch(PushAnswer(check));
+        handleSuccess("Test Submitted Successfully");
+        setTimeout(() => {
+            document.exitFullscreen();
+            navigate("/home");
+        }, 3000);
+    }
+
+    function cancelSubmit() {
+        setShowPopup(false);
+    }
+    const attempted = (result.filter(ans => ans !== undefined).length);
+    const unattempted = queue.length - attempted;
     return (
         <>
             <nav>
@@ -169,6 +131,19 @@ function Quiz() {
                 </div>
             </div>
             <ToastContainer />
+
+            {showPopup && (
+                <div className="popup">
+                    <div className="popup-content">
+                        <h2>Confirm Submission</h2>
+                        <p>Attempted Questions: {attempted}</p>
+                        <p>Unattempted Questions: {unattempted}</p>
+                        <p>Are you sure you want to submit?</p>
+                        <button className="confirm-btn" onClick={confirmSubmit}>Yes, Submit</button>
+                        <button className="cancel-btn" onClick={cancelSubmit}>Cancel</button>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
