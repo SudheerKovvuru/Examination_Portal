@@ -1,8 +1,9 @@
 import { Link,useNavigate} from "react-router-dom";
 import {ToastContainer} from 'react-toastify';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import { handleError,handleSuccess } from "../utils";
 import '../styles/Card.css';
+
 function Card(props)
 {
     const PORT=import.meta.env.VITE_PORT;

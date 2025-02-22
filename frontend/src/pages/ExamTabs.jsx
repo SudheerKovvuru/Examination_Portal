@@ -12,32 +12,24 @@ function ExamTabs() {
         ongoing: [],
         upcoming: [],
     });
-    const [isLoading, setIsLoading] = useState(true); // Loading state
-
-    const fetchExam = useFetchExam();
-    const examNames = useSelector((state) => state.examnames.queue);
+    const [isLoading, setIsLoading] = useState(true);
+    const examNames = useSelector(state => state.info.examnames);
+    const sideInfo = useSelector(state => state.info.sideInfo);
     const questionurl = import.meta.env.VITE_QUESTION;
-
-    useEffect(() => {
-        fetchExam();
-    }, []);
-
     useEffect(() => {
         if (examNames.length > 0) {
-            classifyExams(); // Fetch and classify exams after examNames are updated
+            classifyExams(); 
         }
     }, [examNames]);
-
     const classifyExams = async () => {
         const currentDate = new Date();
         const previous = [];
         const ongoing = [];
         const upcoming = [];
-
         for (const exam of examNames) {
             try {
-                const data = await getSideInfo(questionurl, exam);
-                const { questions,createdAt, endAt } = data[0];
+                const data =sideInfo[exam];
+                const { questions,createdAt, endAt } =data;
                 const startDate = new Date(createdAt);
                 const endDate = new Date(endAt);
                 const allInfo={

@@ -3,12 +3,16 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import { handleSuccess } from "../utils";
 import ExamTabs from "./ExamTabs";
+import { useFetchInfo } from "../hooks/FecthInfo";
+
 function Home()
 {
     const [username,setUsername]=useState("");
     const navigate=useNavigate();
+    const fetchInfo=useFetchInfo();
     useEffect(()=>{
         setUsername(localStorage.getItem("username"));
+        fetchInfo();
     },[]);
     const handlelogout=()=>{
         localStorage.removeItem("jwttoken");
