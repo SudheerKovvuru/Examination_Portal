@@ -157,6 +157,6 @@ nav .userinfo{
 }
 
 
-.dropdown:hover .dropdown-menu {
+.dropdown .dropdown-menu {
     display: block;
 }
